@@ -11074,3 +11074,1228 @@ body:has(.site-header) .crypto-float-layer .crypto-brand-svg {
 }
 /* ===== END MOBILE PATCH ===== */
 
+
+
+/* ===== V46 MOBILE NAV DRAWER VISIBILITY FIX ===== */
+/* V46: stable mobile public navigation drawer. Imported from globals.css. */
+@media (max-width: 760px) {
+  body:has(.site-header) .site-header {
+    position: sticky !important;
+    top: max(8px, env(safe-area-inset-top)) !important;
+    z-index: 1200 !important;
+    isolation: isolate !important;
+  }
+
+  body:has(.site-header) .site-header #mobile-navigation.mobile-nav {
+    position: fixed !important;
+    top: calc(max(8px, env(safe-area-inset-top)) + 68px) !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    z-index: 1201 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    padding: 8px 16px max(14px, env(safe-area-inset-bottom)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    border: 1px solid rgba(255,255,255,.98) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(145deg, rgba(250,251,255,.995), rgba(239,248,250,.985)) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(145%) !important;
+    backdrop-filter: blur(28px) saturate(145%) !important;
+    box-shadow: 0 22px 60px rgba(28,35,62,.22), inset 0 1px 0 rgba(255,255,255,.98) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  body:has(.site-header) .site-header #mobile-navigation.mobile-nav::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  body:has(.site-header) .site-header #mobile-navigation.mobile-nav > a,
+  body:has(.site-header) .site-header #mobile-navigation.mobile-nav > button {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 50px !important;
+    padding: 13px 2px !important;
+    color: #625477 !important;
+    background: transparent !important;
+    border-top: 1px solid rgba(115,94,151,.14) !important;
+    font-size: 14px !important;
+    line-height: 1.35 !important;
+    text-align: left !important;
+    white-space: normal !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  body:has(.site-header) .site-header .menu-toggle {
+    position: relative !important;
+    z-index: 1203 !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    touch-action: manipulation !important;
+  }
+}
+
+
+/* ===== V49: PORTAL-BASED MOBILE PUBLIC NAVIGATION =====
+   Render the drawer outside the header stacking/overflow context.
+   This prevents the previous thin white collapsed strip on mobile. */
+.twai-mobile-menu-backdrop,
+.twai-mobile-nav-portal {
+  display: none;
+}
+@media (max-width: 760px) {
+  .twai-mobile-menu-backdrop {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 20000 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    background: rgba(28, 35, 58, .38) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    backdrop-filter: blur(5px) !important;
+    cursor: default !important;
+  }
+  .twai-mobile-nav-portal {
+    display: flex !important;
+    position: fixed !important;
+    z-index: 20001 !important;
+    top: max(82px, calc(env(safe-area-inset-top) + 76px)) !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    padding: 10px 18px max(18px, env(safe-area-inset-bottom)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    border: 1px solid rgba(255,255,255,.98) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(145deg, #fbfbff 0%, #f3f8ff 54%, #effcfb 100%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(150%) !important;
+    backdrop-filter: blur(30px) saturate(150%) !important;
+    box-shadow: 0 24px 70px rgba(25,31,58,.28), inset 0 1px 0 #fff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    animation: twai-menu-enter .16s ease-out both !important;
+  }
+  .twai-mobile-nav-portal::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .twai-mobile-nav-portal > a,
+  .twai-mobile-nav-portal > button {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    margin: 0 !important;
+    padding: 14px 2px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(105,91,145,.15) !important;
+    border-radius: 0 !important;
+    color: #51466d !important;
+    background: transparent !important;
+    font: 600 15px/1.35 inherit !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+  }
+  .twai-mobile-nav-portal > a:active,
+  .twai-mobile-nav-portal > button:active {
+    background: rgba(113,91,224,.08) !important;
+  }
+  .twai-mobile-nav-portal > button {
+    margin-top: 10px !important;
+    padding: 15px 16px !important;
+    border: 1px solid rgba(255,255,255,.95) !important;
+    border-radius: 14px !important;
+    color: #fff !important;
+    background: linear-gradient(110deg, #8654f5, #3565ef) !important;
+  }
+  body[data-twai-mobile-menu-lock="true"] {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+}
+@keyframes twai-menu-enter {
+  from { opacity: 0; transform: translateY(-7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* ===== END V49 MOBILE NAVIGATION ===== */
+
+
+/* ===== V51: ONE SHARED PUBLIC HEADER GEOMETRY =====
+   Keep the homepage, contact, login and register header in the same
+   position and at the same dimensions on mobile and desktop. */
+.site-header,
+.site-header.twai-contact-site-header,
+.site-header.auth-site-header {
+  box-sizing: border-box !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+}
+@media (min-width: 761px) {
+  .site-header,
+  .site-header.twai-contact-site-header,
+  .site-header.auth-site-header {
+    top: 16px !important;
+    width: min(1360px, calc(100% - 72px)) !important;
+    max-width: 1360px !important;
+    border-radius: 18px !important;
+  }
+  .site-header .nav-shell {
+    height: 68px !important;
+    min-height: 68px !important;
+    box-sizing: border-box !important;
+    padding: 0 22px !important;
+  }
+}
+@media (max-width: 760px) {
+  .site-header,
+  .site-header.twai-contact-site-header,
+  .site-header.auth-site-header {
+    top: 10px !important;
+    width: calc(100% - 20px) !important;
+    max-width: none !important;
+    border-radius: 14px !important;
+    z-index: 120 !important;
+  }
+  .site-header .nav-shell {
+    display: flex !important;
+    width: 100% !important;
+    height: 57px !important;
+    min-height: 57px !important;
+    box-sizing: border-box !important;
+    padding: 0 13px !important;
+    gap: 12px !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+  .site-header .brand {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+    gap: 8px !important;
+    white-space: nowrap !important;
+  }
+  .site-header .brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    border-radius: 8px !important;
+  }
+  .site-header .brand-icon > svg {
+    width: 21px !important;
+    height: 21px !important;
+  }
+  .site-header .nav-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex: 0 0 auto !important;
+    gap: 13px !important;
+    min-width: 0 !important;
+  }
+  .site-header .signin-button {
+    display: none !important;
+  }
+  .site-header .nav-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 33px !important;
+    height: 33px !important;
+    padding: 0 13px !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+  .site-header .menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 2px !important;
+    margin: 0 !important;
+  }
+  .twai-mobile-nav-portal {
+    top: 76px !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-height: calc(100dvh - 86px - env(safe-area-inset-bottom)) !important;
+    border-radius: 20px !important;
+  }
+}
+@media (max-width: 380px) {
+  .site-header .nav-shell { padding-inline: 10px !important; gap: 8px !important; }
+  .site-header .brand { font-size: 14px !important; gap: 6px !important; }
+  .site-header .nav-actions { gap: 9px !important; }
+  .site-header .nav-cta { padding-inline: 10px !important; }
+}
+
+
+/* ===== V52 HOTFIX: RESTORE FULL-WIDTH HEADER ANCHOR =====
+   V51's centered transform was incorrect for this app's transformed page
+   wrappers. Anchor the fixed header to the viewport edges instead. */
+.site-header,
+.site-header.twai-contact-site-header,
+.site-header.auth-site-header {
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+@media (max-width: 760px) {
+  .site-header,
+  .site-header.twai-contact-site-header,
+  .site-header.auth-site-header {
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+  .site-header .nav-shell {
+    width: 100% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .site-header .brand {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: calc(100% - 150px) !important;
+    min-width: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+    position: relative !important;
+    inset: auto !important;
+  }
+  .site-header .nav-actions {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    justify-content: flex-end !important;
+  }
+}
+
+
+/* ===== V53: CHAT-ONLY SCROLL + CONVERSATIONAL CONTEXT SETUP ===== */
+
+/* Lock the document while the AI Assistant view is active. */
+html.twai-assistant-page-lock,
+body.twai-assistant-page-lock {
+  height: 100% !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+/* One fixed app viewport: outer page must never become the chat scroller. */
+.workspace.workspace-full.is-ai-assistant {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+.workspace.workspace-full.is-ai-assistant > .workspace-body {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .workspace-main {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  padding: 8px 10px 10px !important;
+}
+.workspace.workspace-full.is-ai-assistant .workspace-main > .workspace-title {
+  display: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .dashboard-module-ai-assistant {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-page {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-shell {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: min(100%, 980px) !important;
+  max-width: 980px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript {
+  display: block !important;
+  flex: 1 1 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(89,126,157,.55) transparent !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript::-webkit-scrollbar {
+  width: 7px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript::-webkit-scrollbar-thumb {
+  background: rgba(89,126,157,.48) !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  background-clip: padding-box !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-composer {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  bottom: auto !important;
+  margin-top: 8px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-disclaimer {
+  flex: 0 0 auto !important;
+  margin: 5px auto 0 !important;
+}
+
+/* Context questions now appear as AI chat prompts, never in a top filter row. */
+.workspace.workspace-full.is-ai-assistant .assistant-filter-bar {
+  display: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-edit-filters {
+  border: 1px solid rgba(255,255,255,.78) !important;
+  border-radius: 999px !important;
+  padding: 7px 12px !important;
+  color: #4d7893 !important;
+  background: rgba(255,255,255,.58) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-setup {
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(100%, 720px) !important;
+  max-width: 720px !important;
+  gap: 10px !important;
+  margin: 20px auto 14px !important;
+  padding: 15px !important;
+  border: 1px solid rgba(255,255,255,.88) !important;
+  border-radius: 20px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(236,248,250,.70)) !important;
+  box-shadow: 0 9px 24px rgba(47,82,109,.075), inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-setup-heading {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding: 2px 2px 5px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-ai-label {
+  color: #8b77d9 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .11em !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-setup-heading strong {
+  color: #405a70 !important;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-setup-heading small {
+  color: #8295a3 !important;
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-question-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  gap: 9px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-question {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  padding: 10px !important;
+  border: 1px solid rgba(255,255,255,.94) !important;
+  border-radius: 14px !important;
+  background: rgba(255,255,255,.62) !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-question-prompt {
+  color: #607b90 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-question select {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 39px !important;
+  padding: 0 10px !important;
+  border: 1px solid rgba(183,207,222,.76) !important;
+  border-radius: 10px !important;
+  color: #425e73 !important;
+  background: rgba(255,255,255,.92) !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-context-done {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-end !important;
+  gap: 7px !important;
+  min-height: 34px !important;
+  padding: 0 13px !important;
+  border: 1px solid rgba(255,255,255,.92) !important;
+  border-radius: 999px !important;
+  color: #fff !important;
+  background: linear-gradient(110deg, #8755f3, #3970e9) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+/* Mobile: header remains, transcript takes the remaining viewport, composer stays below it. */
+@media (max-width: 760px) {
+  .workspace.workspace-full.is-ai-assistant {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant > .workspace-body {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    padding: max(7px, env(safe-area-inset-top)) 9px max(7px, env(safe-area-inset-bottom)) !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .workspace-topbar {
+    position: relative !important;
+    top: auto !important;
+    flex: 0 0 58px !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    margin: 0 0 8px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .workspace-main {
+    display: flex !important;
+    flex: 1 1 0 !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 1px 4px !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .dashboard-module-ai-assistant,
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-page {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-shell {
+    width: 100% !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 8px 8px 7px !important;
+    gap: 7px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-header {
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 5px 1px 9px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-brand strong {
+    font-size: 14px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-brand small {
+    font-size: 9px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-credit-pill {
+    max-width: 112px !important;
+    font-size: 7px !important;
+    padding: 5px 7px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-transcript {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 7px 2px 12px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-welcome {
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 8px 2px 12px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-welcome h3 {
+    font-size: 18px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-welcome > p {
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-context-setup {
+    margin: 13px auto 12px !important;
+    padding: 11px !important;
+    border-radius: 16px !important;
+    gap: 8px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-context-question-list {
+    grid-template-columns: minmax(0,1fr) !important;
+    gap: 7px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-context-question {
+    padding: 8px 9px !important;
+    border-radius: 12px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-context-question select {
+    min-height: 38px !important;
+    font-size: 16px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-starters {
+    width: 100% !important;
+    gap: 7px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-starters button {
+    width: 100% !important;
+    min-height: 42px !important;
+    font-size: 10px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-composer {
+    flex: 0 0 auto !important;
+    position: relative !important;
+    bottom: auto !important;
+    margin: 5px 0 0 !important;
+    width: 100% !important;
+    padding: 7px 8px 6px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-composer-row textarea {
+    min-height: 42px !important;
+    max-height: 96px !important;
+    font-size: 16px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-disclaimer {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace.workspace-full.is-ai-assistant .assistant-context-question,
+  .workspace.workspace-full.is-ai-assistant .assistant-context-question select {
+    transition: none !important;
+  }
+}
+/* ===== END V53 ===== */
+
+
+/* ===== V54: AI ASSISTANT GUIDED CHAT FLOW + CHAT-ONLY SCROLL =====
+   This is append-only so existing dashboard/public navbar styling is preserved. */
+
+html.twai-assistant-page-lock,
+body.twai-assistant-page-lock {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+html.twai-assistant-page-lock::-webkit-scrollbar,
+body.twai-assistant-page-lock::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+.workspace.workspace-full.is-ai-assistant {
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+.workspace.workspace-full.is-ai-assistant > .workspace-body {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .workspace-topbar {
+  flex: 0 0 56px !important;
+  min-height: 56px !important;
+}
+.workspace.workspace-full.is-ai-assistant .workspace-main {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 8px 16px 12px !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .workspace-main > .workspace-title {
+  display: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-header,
+.workspace.workspace-full.is-ai-assistant .assistant-chat-page > .panel-heading,
+.workspace.workspace-full.is-ai-assistant .assistant-filter-bar,
+.workspace.workspace-full.is-ai-assistant .assistant-edit-filters,
+.workspace.workspace-full.is-ai-assistant .assistant-credit-pill {
+  display: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .dashboard-module-ai-assistant {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-page {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-shell {
+  display: flex !important;
+  flex: 1 1 0 !important;
+  flex-direction: column !important;
+  width: min(100%, 980px) !important;
+  max-width: 980px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 auto !important;
+  padding: 2px 18px 8px !important;
+  gap: 8px !important;
+  overflow: hidden !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript {
+  display: block !important;
+  flex: 1 1 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  padding: 10px 8px 18px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(93,128,156,.46) transparent !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript::-webkit-scrollbar {
+  width: 7px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript::-webkit-scrollbar-thumb {
+  background: rgba(93,128,156,.44) !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  background-clip: padding-box !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-composer {
+  position: relative !important;
+  flex: 0 0 auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  margin: 4px 0 0 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-disclaimer {
+  flex: 0 0 auto !important;
+  margin: 3px auto 0 !important;
+  text-align: center !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-welcome {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 760px !important;
+  margin: 0 auto !important;
+  padding: 4px 0 18px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-welcome > .assistant-orb,
+.workspace.workspace-full.is-ai-assistant .assistant-welcome > h3,
+.workspace.workspace-full.is-ai-assistant .assistant-welcome > p {
+  display: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-flow {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  gap: 13px !important;
+  margin: 0 auto !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-intro {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  padding: 10px 3px 3px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-kicker {
+  color: #8a78d5 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .12em !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-intro p {
+  margin: 0 !important;
+  color: #536d82 !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-bot-message {
+  align-self: flex-start !important;
+  width: fit-content !important;
+  max-width: min(100%, 640px) !important;
+  padding: 13px 16px !important;
+  border: 1px solid rgba(255,255,255,.96) !important;
+  border-radius: 17px 17px 17px 5px !important;
+  background: linear-gradient(140deg, rgba(255,255,255,.92), rgba(241,248,251,.86)) !important;
+  box-shadow: 0 8px 25px rgba(43,83,112,.07), inset 0 1px 0 #fff !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-bot-name {
+  display: block !important;
+  margin-bottom: 5px !important;
+  color: #87a2b4 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-bot-message p {
+  margin: 0 !important;
+  color: #3f5b71 !important;
+  font-size: 14px !important;
+  font-weight: 650 !important;
+  line-height: 1.45 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-bot-message small {
+  display: block !important;
+  margin-top: 5px !important;
+  color: #8598a8 !important;
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-history {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+  padding: 0 2px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-history > div {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  min-width: 90px !important;
+  max-width: 100% !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(255,255,255,.78) !important;
+  border-radius: 11px !important;
+  background: rgba(255,255,255,.38) !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-history small {
+  color: #91a2b0 !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-history strong {
+  color: #536d82 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  overflow-wrap: anywhere !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: stretch !important;
+  gap: 9px !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-height: 44px !important;
+  padding: 10px 14px !important;
+  border: 1px solid rgba(255,255,255,.94) !important;
+  border-radius: 13px !important;
+  color: #516b80 !important;
+  background: rgba(255,255,255,.65) !important;
+  box-shadow: 0 4px 14px rgba(45,82,111,.045), inset 0 1px 0 #fff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid button:hover {
+  transform: translateY(-1px) !important;
+  border-color: rgba(127,104,222,.48) !important;
+  background: rgba(255,255,255,.92) !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid button span {
+  color: #8d7ae0 !important;
+  font-size: 17px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid.styles button {
+  min-width: 125px !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 3px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid.styles button span {
+  display: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid.styles button strong {
+  color: #506b80 !important;
+  font-size: 12px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid.styles button small {
+  color: #8ba0af !important;
+  font-size: 10px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-ready {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 7px !important;
+  padding: 14px 16px !important;
+  border: 1px solid rgba(255,255,255,.95) !important;
+  border-radius: 15px !important;
+  background: linear-gradient(120deg, rgba(255,255,255,.72), rgba(227,250,243,.62)) !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-ready-title {
+  color: #4d9b84 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-ready p {
+  margin: 0 !important;
+  color: #647f90 !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-guided-ready button {
+  min-height: 30px !important;
+  padding: 0 10px !important;
+  border: 1px solid rgba(127,104,222,.25) !important;
+  border-radius: 999px !important;
+  color: #7564c4 !important;
+  background: rgba(255,255,255,.58) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-attach-button.is-disabled {
+  opacity: .42 !important;
+  pointer-events: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-composer textarea:disabled {
+  opacity: .62 !important;
+  cursor: not-allowed !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-starters {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 3px !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-starters button {
+  min-height: 40px !important;
+  padding: 9px 13px !important;
+  border: 1px solid rgba(255,255,255,.95) !important;
+  border-radius: 999px !important;
+  color: #547086 !important;
+  background: rgba(255,255,255,.56) !important;
+  font-size: 10px !important;
+  font-weight: 650 !important;
+}
+.workspace.workspace-full.is-ai-assistant,
+.workspace.workspace-full.is-ai-assistant > .workspace-body,
+.workspace.workspace-full.is-ai-assistant .workspace-main,
+.workspace.workspace-full.is-ai-assistant .dashboard-module-ai-assistant,
+.workspace.workspace-full.is-ai-assistant .assistant-chat-page,
+.workspace.workspace-full.is-ai-assistant .assistant-chat-shell {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+.workspace.workspace-full.is-ai-assistant .assistant-chat-transcript {
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+}
+.workspace.workspace-full.is-ai-assistant .workspace-body,
+.workspace.workspace-full.is-ai-assistant .workspace-main,
+.workspace.workspace-full.is-ai-assistant .assistant-chat-page,
+.workspace.workspace-full.is-ai-assistant .assistant-chat-shell {
+  min-height: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .workspace.workspace-full.is-ai-assistant {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant > .workspace-body {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    padding: max(6px, env(safe-area-inset-top)) 8px max(6px, env(safe-area-inset-bottom)) !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .workspace-topbar {
+    flex: 0 0 56px !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    margin: 0 0 7px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .workspace-main {
+    flex: 1 1 0 !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 1px 2px !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .dashboard-module-ai-assistant,
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-page {
+    flex: 1 1 0 !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-shell {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 2px 6px 6px !important;
+    gap: 6px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-chat-transcript {
+    min-height: 0 !important;
+    padding: 4px 2px 12px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-flow {
+    gap: 9px !important;
+    padding: 0 1px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-intro {
+    padding: 5px 2px 1px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-intro p {
+    font-size: 12px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-bot-message {
+    max-width: 100% !important;
+    padding: 11px 12px !important;
+    border-radius: 15px 15px 15px 5px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-bot-message p {
+    font-size: 12px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-history {
+    gap: 5px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-history > div {
+    min-width: 0 !important;
+    max-width: calc(50% - 3px) !important;
+    padding: 6px 8px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 7px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid button {
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 9px 10px !important;
+    font-size: 10px !important;
+    overflow-wrap: anywhere !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid.instruments button {
+    min-height: 38px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid.styles button {
+    min-height: 62px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-composer {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    margin: 3px 0 0 !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-composer-row textarea {
+    min-height: 42px !important;
+    max-height: 92px !important;
+    font-size: 16px !important;
+  }
+  .workspace.workspace-full.is-ai-assistant .assistant-disclaimer {
+    display: none !important;
+  }
+}
+@media (max-width: 380px) {
+  .workspace.workspace-full.is-ai-assistant .assistant-guided-choice-grid {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+}
+/* ===== END V54 ===== */
+

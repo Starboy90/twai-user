@@ -1,10 +1,10 @@
 "use client";
+import { SiteNavbar } from "@/components/site-navbar";
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
-import { ArrowRight, ArrowUpRight, Eye, EyeOff, LockKeyhole, Mail, Menu, ShieldCheck, X } from "lucide-react";
-import { Brand } from "@/components/ui";
+import { ArrowRight, ArrowUpRight, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 
 type Mode = "login" | "register" | "forgot";
 
@@ -35,8 +35,6 @@ export default function AuthPage({ initialMode = "login" }: AuthPageProps) {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [menu, setMenu] = useState(false);
-
   function changeMode(next: Mode) {
     setMode(next); setMessage(""); setError(""); setFieldErrors({});
   }
@@ -117,42 +115,7 @@ export default function AuthPage({ initialMode = "login" }: AuthPageProps) {
         <span className="crypto-float-icon crypto-cardano"><span className="crypto-coin-face"><svg className="crypto-brand-svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="#1746B5"/><g fill="#fff"><circle cx="24" cy="24" r="3.2"/><circle cx="24" cy="13" r="1.8"/><circle cx="24" cy="35" r="1.8"/><circle cx="13" cy="24" r="1.8"/><circle cx="35" cy="24" r="1.8"/><circle cx="16.2" cy="16.2" r="1.45"/><circle cx="31.8" cy="16.2" r="1.45"/><circle cx="16.2" cy="31.8" r="1.45"/><circle cx="31.8" cy="31.8" r="1.45"/><circle cx="24" cy="8" r="1"/><circle cx="24" cy="40" r="1"/><circle cx="8" cy="24" r="1"/><circle cx="40" cy="24" r="1"/></g></svg></span></span>
         <span className="crypto-float-icon crypto-avalanche"><span className="crypto-coin-face"><svg className="crypto-brand-svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="#E84142"/><path d="M24 10.5 37.5 36h-7.3L24 23.9 17.8 36h-7.3L24 10.5z" fill="#fff"/><path d="m24 27.5 4.1 8.5h-8.2z" fill="#E84142"/></svg></span></span>
       </div>
-            <header className="site-header auth-site-header">
-        <div className="nav-shell">
-          <Brand />
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <div className="nav-item"><Link href="/#home">Home</Link></div>
-            <div className="nav-item"><Link href="/#tools">AI Tools</Link></div>
-            <div className="nav-item"><Link href="/#brokers">Brokers</Link></div>
-            <div className="nav-item"><Link href="/#prop-firms">Prop Firms</Link></div>
-            <div className="nav-item"><Link href="/#intelligence">Market Intelligence</Link></div>
-            <div className="nav-item"><Link href="/#pricing">Pricing</Link></div>
-            <div className="nav-item"><Link href="/#about">About</Link></div>
-            <div className="nav-item"><Link href="/contact">Contact</Link></div>
-          </nav>
-          <div className="nav-actions">
-            <Link className="signin-button" href="/login" aria-current={mode === "login" ? "page" : undefined}>Sign In</Link>
-            <Link className="button button-primary nav-cta" href="/register" aria-current={mode === "register" ? "page" : undefined}>Get Started</Link>
-            <button className="icon-button menu-toggle" type="button" aria-label={menu ? "Close navigation" : "Open navigation"} aria-expanded={menu} aria-controls="auth-mobile-navigation" onClick={() => setMenu(!menu)}>
-              {menu ? <X size={21} /> : <Menu size={21} />}
-            </button>
-          </div>
-        </div>
-        {menu && (
-          <nav id="auth-mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-            <Link href="/#home" onClick={() => setMenu(false)}>Home <ArrowUpRight size={15} /></Link>
-            <Link href="/#tools" onClick={() => setMenu(false)}>AI Tools <ArrowUpRight size={15} /></Link>
-            <Link href="/#brokers" onClick={() => setMenu(false)}>Brokers <ArrowUpRight size={15} /></Link>
-            <Link href="/#prop-firms" onClick={() => setMenu(false)}>Prop Firms <ArrowUpRight size={15} /></Link>
-            <Link href="/#intelligence" onClick={() => setMenu(false)}>Market Intelligence <ArrowUpRight size={15} /></Link>
-            <Link href="/#pricing" onClick={() => setMenu(false)}>Pricing <ArrowUpRight size={15} /></Link>
-            <Link href="/#about" onClick={() => setMenu(false)}>About <ArrowUpRight size={15} /></Link>
-            <Link href="/contact" onClick={() => setMenu(false)}>Contact <ArrowUpRight size={15} /></Link>
-            <Link href="/login" onClick={() => setMenu(false)}>Sign In <ArrowUpRight size={15} /></Link>
-            <Link href="/register" onClick={() => setMenu(false)}>Get Started <ArrowUpRight size={15} /></Link>
-          </nav>
-        )}
-      </header>
+            <SiteNavbar currentPage={mode === "login" ? "login" : mode === "register" ? "register" : undefined} />
       <section className="auth-layout">
         <div className="auth-story">
           <span className="auth-kicker"><ShieldCheck size={14}/> YOUR TRADING WORKSPACE</span>

@@ -1,16 +1,14 @@
 "use client";
+import { SiteNavbar } from "@/components/site-navbar";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { Brand } from "./ui";
 import {
   ArrowUpRight,
   Check,
   CircleHelp,
   Mail,
-  Menu,
   MessageSquareText,
   Send,
-  X,
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
@@ -25,7 +23,6 @@ type ContactDraft = {
 
 export function ContactPage() {
   const [saved, setSaved] = useState(false);
-  const [menu, setMenu] = useState(false);
   const [error, setError] = useState("");
   // V39 crypto scroll direction listener
   useEffect(() => {
@@ -73,40 +70,7 @@ export function ContactPage() {
 
   return (
     <>
-      <header className="site-header twai-contact-site-header">
-        <div className="nav-shell">
-          <Brand />
-          <nav className="desktop-nav" aria-label="Main navigation">
-            <div className="nav-item"><a href="/#home">Home</a></div>
-            <div className="nav-item"><a href="/#tools">AI Tools</a></div>
-            <div className="nav-item"><a href="/#brokers">Brokers</a></div>
-            <div className="nav-item"><a href="/#prop-firms">Prop Firms</a></div>
-            <div className="nav-item"><a href="/#intelligence">Market Intelligence</a></div>
-            <div className="nav-item"><a href="/#pricing">Pricing</a></div>
-            <div className="nav-item"><a href="/#about">About</a></div>
-            <div className="nav-item"><a className="active" href="/contact" aria-current="page">Contact</a></div>
-          </nav>
-          <div className="nav-actions">
-            <a className="signin-button" href="/login">Sign In</a>
-            <a className="button button-primary nav-cta" href="/register">Get Started</a>
-            <button className="icon-button menu-toggle" type="button" aria-label={menu ? "Close navigation" : "Open navigation"} aria-expanded={menu} aria-controls="contact-mobile-navigation" onClick={() => setMenu(!menu)}>
-              {menu ? <X size={21} /> : <Menu size={21} />}
-            </button>
-          </div>
-        </div>
-        {menu && (
-          <nav id="contact-mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-            <a href="/#home" onClick={() => setMenu(false)}>Home <ArrowUpRight size={15} /></a>
-            <a href="/#tools" onClick={() => setMenu(false)}>AI Tools <ArrowUpRight size={15} /></a>
-            <a href="/#brokers" onClick={() => setMenu(false)}>Brokers <ArrowUpRight size={15} /></a>
-            <a href="/#prop-firms" onClick={() => setMenu(false)}>Prop Firms <ArrowUpRight size={15} /></a>
-            <a href="/#intelligence" onClick={() => setMenu(false)}>Market Intelligence <ArrowUpRight size={15} /></a>
-            <a href="/#pricing" onClick={() => setMenu(false)}>Pricing <ArrowUpRight size={15} /></a>
-            <a href="/#about" onClick={() => setMenu(false)}>About <ArrowUpRight size={15} /></a>
-            <a href="/contact" onClick={() => setMenu(false)}>Contact <ArrowUpRight size={15} /></a>
-          </nav>
-        )}
-      </header>
+      <SiteNavbar currentPage="contact" />
     <main className="twai-contact-page">
       <div className="crypto-float-layer" aria-hidden="true">
         <span className="crypto-float-icon crypto-bitcoin"><span className="crypto-coin-face"><svg className="crypto-brand-svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="#F7931A"/><text x="24" y="32" textAnchor="middle" fontSize="27" fontWeight="800" fill="#fff">₿</text></svg></span></span>

@@ -1,4 +1,5 @@
 "use client";
+import { SiteNavbar } from "@/components/site-navbar";
 import { useEffect, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import {
@@ -7,7 +8,6 @@ import {
   Check,
   ChevronDown,
   LockKeyhole,
-  Menu,
   ShieldCheck,
   Sparkles,
   TriangleAlert,
@@ -61,7 +61,6 @@ type Dialog =
   | null;
 export function HomePage() {
   const [dialog, setDialog] = useState<Dialog>(null),
-    [menu, setMenu] = useState(false),
     [toolsMenu, setToolsMenu] = useState(false),
     [errors, setErrors] = useState<FormErrors>({}),
     [success, setSuccess] = useState(false),
@@ -116,13 +115,13 @@ export function HomePage() {
         setDialog("workspace");
       }
       if (e.key === "Escape") {
-        setMenu(false);
         setToolsMenu(false);
       }
     }
     window.addEventListener("keydown", key);
     return () => window.removeEventListener("keydown", key);
   }, []);
+
   // V32 subtle mouse parallax for the homepage hero.
   useEffect(() => {
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
@@ -152,7 +151,6 @@ export function HomePage() {
     setErrors({});
     setSuccess(false);
     setDialog("signup");
-    setMenu(false);
   }
   function legal(kind: Dialog) {
     setSuccess(false);
@@ -238,100 +236,7 @@ export function HomePage() {
         Skip to content
       </a>
       <motion.div className="scroll-progress" style={{ scaleX }} />
-      <header className="site-header">
-        <div className="nav-shell">
-          <Brand />
-          <nav className="desktop-nav" aria-label="Main navigation">
-            {navigation.map((n) => (
-              <div className="nav-item" key={n.href}>
-                {n.label === "AI Tools" ? (
-                  <>
-                    <button
-                      className={active === n.href ? "active" : ""}
-                      aria-expanded={toolsMenu}
-                      aria-controls="tools-dropdown"
-                      onClick={() => setToolsMenu(!toolsMenu)}
-                    >
-                      AI Tools
-                      <ChevronDown size={12} />
-                    </button>
-                    {toolsMenu && (
-                      <div className="tools-dropdown glass" id="tools-dropdown">
-                        <a href="#tools" onClick={() => setToolsMenu(false)}>
-                          Explore all 22 tools
-                          <ArrowUpRight size={14} />
-                        </a>
-                        {toolGroups.map((g) => (
-                          <a
-                            key={g.title}
-                            href="#tools"
-                            onClick={() => setToolsMenu(false)}
-                          >
-                            <span className={`category-dot color-${g.color}`} />
-                            {g.title}
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <a
-                    className={active === n.href ? "active" : ""}
-                    href={n.href}
-                  >
-                    {n.label}
-                  </a>
-                )}
-              </div>
-            ))}
-            <div className="nav-item"><a href="/contact">Contact</a></div>
-          </nav>
-          <div className="nav-actions">
-            <a className="signin-button" href="/login">
-              Sign In
-            </a>
-            <button
-              className="button button-primary nav-cta"
-              onClick={() => choose()}
-            >
-              Get Started
-            </button>
-            <button
-              className="icon-button menu-toggle"
-              aria-label={menu ? "Close navigation" : "Open navigation"}
-              aria-expanded={menu}
-              aria-controls="mobile-navigation"
-              onClick={() => setMenu(!menu)}
-            >
-              {menu ? <X size={22} /> : <Menu size={22} />}
-            </button>
-          </div>
-        </div>
-        <AnimatePresence>
-          {menu && (
-            <motion.nav
-              id="mobile-navigation"
-              className="mobile-nav"
-              aria-label="Mobile navigation"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-            >
-              {navigation.map((n) => (
-                <a key={n.href} href={n.href} onClick={() => setMenu(false)}>
-                  {n.label}
-                  <ArrowUpRight size={15} />
-                </a>
-              ))}
-              <a href="/contact" onClick={() => setMenu(false)}>Contact <ArrowUpRight size={15} /></a>
-              <button onClick={() => choose()}>
-                Get Started
-                <ArrowRight size={15} />
-              </button>
-            </motion.nav>
-          )}
-        </AnimatePresence>
-      </header>
+      <SiteNavbar currentPage="home" onGetStarted={() => choose()} />
       <main id="main">
         <section id="home" className="hero">
           <div className="hero-grid" />

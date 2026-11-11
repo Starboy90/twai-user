@@ -92,6 +92,33 @@ export function Workspace({
     if (page) page.scrollTop = 0;
   }, [activeTab]);
 
+  // AI Assistant owns its own transcript scroll area; lock the outer document.
+  useEffect(() => {
+    if (preview || activeTab !== "AI assistant") return;
+    const root = document.documentElement;
+    const body = document.body;
+    const previousRootOverflow = root.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyHeight = body.style.height;
+    const previousBodyOverscroll = body.style.overscrollBehavior;
+
+    root.classList.add("twai-assistant-page-lock");
+    body.classList.add("twai-assistant-page-lock");
+    root.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.height = "100dvh";
+    body.style.overscrollBehavior = "none";
+
+    return () => {
+      root.classList.remove("twai-assistant-page-lock");
+      body.classList.remove("twai-assistant-page-lock");
+      root.style.overflow = previousRootOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.height = previousBodyHeight;
+      body.style.overscrollBehavior = previousBodyOverscroll;
+    };
+  }, [preview, activeTab]);
+
 
   const sidebarNavRef = useRef<HTMLElement | null>(null);
   const [selected, setSelected] = useState(markets[0]);
@@ -180,17 +207,21 @@ export function Workspace({
   const [messages, setMessages] = useState<Message[]>([]);
   const [prompt, setPrompt] = useState("");
   const [thinking, setThinking] = useState(false);
-  const [assistantTopic, setAssistantTopic] = useState("General trading");
-  const [assistantInstrument, setAssistantInstrument] = useState(markets[0]?.symbol ?? "BTC");
-  const [assistantTimeframe, setAssistantTimeframe] = useState("1D");
-  const [assistantExperience, setAssistantExperience] = useState("Intermediate");
+  const [assistantMarketType, setAssistantMarketType] = useState("");
+  const [assistantInstrument, setAssistantInstrument] = useState("");
+  const [assistantTopic, setAssistantTopic] = useState("");
+  const [assistantTimeframe, setAssistantTimeframe] = useState("");
+  const [assistantStyle, setAssistantStyle] = useState("");
+  const [assistantExperience, setAssistantExperience] = useState("");
+  const [assistantFlowStep, setAssistantFlowStep] = useState(0);
   const [assistantAttachment, setAssistantAttachment] = useState<File | null>(null);
+  const assistantReady = assistantFlowStep === 5;
 /* V20 FIX: assistant transcript auto-scroll after messages initialization */
   useEffect(() => {
     if (activeTab !== "AI assistant" || messages.length === 0) return;
     const transcript = document.querySelector<HTMLElement>(".assistant-chat-transcript");
     if (transcript) transcript.scrollTop = transcript.scrollHeight;
-  }, [activeTab, messages.length, thinking]);
+  }, [activeTab, messages.length, thinking, assistantFlowStep]);
   useEffect(() => {
     if (!thinking) return;
     const timer = setTimeout(() => {
@@ -211,7 +242,14 @@ export function Workspace({
   function ask(text: string) {
     const parsed = z.string().trim().min(3).max(2000).safeParse(text);
     if (!parsed.success || thinking) return;
-    const contextParts = [assistantTopic, assistantInstrument, assistantTimeframe, assistantExperience];
+    const contextParts = [
+      `Market: ${assistantMarketType}`,
+      `Instrument: ${assistantInstrument}`,
+      `Focus: ${assistantTopic}`,
+      `Trading style: ${assistantStyle}`,
+      `Timeframe: ${assistantTimeframe}`,
+      `Experience: ${assistantExperience}`,
+    ];
     if (assistantAttachment) contextParts.push(`Attachment: ${assistantAttachment.name}`);
     const context = `[${contextParts.join(" | ")}]`;
     setMessages((m) => [...m, { role: "user", text: `${parsed.data}\n\n${context}` }]);
@@ -323,54 +361,170 @@ export function Workspace({
       )}
     </div>
   );
+  const assistantInstrumentChoices: Record<string, string[]> = {
+    Forex: ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "USD/CHF", "NZD/USD", "EUR/GBP", "GBP/JPY"],
+    Crypto: ["BTC/USDT", "ETH/USDT", "BNB/USDT", "SOL/USDT", "XRP/USDT", "ADA/USDT", "DOGE/USDT"],
+    Stocks: ["AAPL", "MSFT", "NVDA", "TSLA", "AMZN", "GOOGL", "META"],
+    Commodities: ["XAU/USD (Gold)", "XAG/USD (Silver)", "WTI Crude Oil", "Brent Crude", "Natural Gas"],
+    Indices: ["US30", "NAS100", "SPX500", "GER40", "UK100", "NIFTY 50"],
+  };
+
+  const assistantGoalChoices = [
+    "Chart & technical analysis",
+    "Price action & market structure",
+    "News & fundamentals",
+    "Risk & position sizing",
+    "Trading basics & education",
+  ];
+
+  const assistantStyleChoices = [
+    { label: "Scalping", detail: "1m–5m", timeframe: "5m" },
+    { label: "Intraday", detail: "15m–1H", timeframe: "1H" },
+    { label: "Swing", detail: "4H–1D", timeframe: "1D" },
+    { label: "Position", detail: "1W–1M", timeframe: "1W" },
+  ];
+
+  function chooseAssistantMarket(value: string) {
+    setAssistantMarketType(value);
+    setAssistantInstrument(assistantInstrumentChoices[value]?.[0] ?? "");
+    setAssistantFlowStep(1);
+  }
+
+  function chooseAssistantFlowOption(value: string) {
+    if (assistantFlowStep === 1) {
+      setAssistantInstrument(value);
+      setAssistantFlowStep(2);
+      return;
+    }
+    if (assistantFlowStep === 2) {
+      setAssistantTopic(value);
+      setAssistantFlowStep(3);
+      return;
+    }
+    if (assistantFlowStep === 3) {
+      const style = assistantStyleChoices.find((item) => item.label === value);
+      if (style) {
+        setAssistantStyle(style.label);
+        setAssistantTimeframe(style.timeframe);
+      }
+      setAssistantFlowStep(4);
+      return;
+    }
+    if (assistantFlowStep === 4) {
+      setAssistantExperience(value);
+      setAssistantFlowStep(5);
+    }
+  }
+
+  const assistantFlowQuestion = [
+    "Which market would you like to explore?",
+    assistantMarketType === "Forex"
+      ? "Which currency pair are you interested in?"
+      : assistantMarketType === "Crypto"
+        ? "Which coin or crypto pair should we look at?"
+        : assistantMarketType === "Stocks"
+          ? "Which company or stock do you want to explore?"
+          : assistantMarketType === "Commodities"
+            ? "Which commodity would you like to analyse?"
+            : "Which market index should we focus on?",
+    "What would you like help with?",
+    "What is your trading style?",
+    "How would you describe your trading experience?",
+    "Your market workspace is ready. What would you like to explore first?",
+  ][assistantFlowStep];
+
+  const assistantGuidedFlow = (
+    <div className="assistant-guided-flow">
+      <div className="assistant-guided-intro">
+        <span className="assistant-guided-kicker">TRADER WORLD AI</span>
+        <p>Hi! I’ll help you set up your market view. Let’s start with one quick question.</p>
+      </div>
+
+      {assistantFlowStep > 0 && (
+        <div className="assistant-guided-history" aria-label="Your selected setup">
+          <div><small>Market</small><strong>{assistantMarketType}</strong></div>
+          {assistantFlowStep > 1 && <div><small>Instrument</small><strong>{assistantInstrument}</strong></div>}
+          {assistantFlowStep > 2 && <div><small>Focus</small><strong>{assistantTopic}</strong></div>}
+          {assistantFlowStep > 3 && <div><small>Style</small><strong>{assistantStyle} · {assistantTimeframe}</strong></div>}
+          {assistantFlowStep > 4 && <div><small>Experience</small><strong>{assistantExperience}</strong></div>}
+        </div>
+      )}
+
+      <div className="assistant-guided-bot-message">
+        <span className="assistant-guided-bot-name">Trader World AI</span>
+        <p>{assistantFlowQuestion}</p>
+        {assistantFlowStep === 1 && <small>Choose a pair below. For example, Forex includes EUR/USD and GBP/JPY.</small>}
+        {assistantFlowStep === 3 && <small>I’ll use the matching chart timeframe with your selected trading style.</small>}
+      </div>
+
+      {assistantFlowStep === 0 && (
+        <div className="assistant-guided-choice-grid market-types">
+          {["Forex", "Crypto", "Stocks", "Commodities", "Indices"].map((option) => (
+            <button type="button" key={option} onClick={() => chooseAssistantMarket(option)}>{option}<span>›</span></button>
+          ))}
+        </div>
+      )}
+
+      {assistantFlowStep === 1 && (
+        <div className="assistant-guided-choice-grid instruments">
+          {(assistantInstrumentChoices[assistantMarketType] ?? []).map((option) => (
+            <button type="button" key={option} onClick={() => chooseAssistantFlowOption(option)}>{option}<span>›</span></button>
+          ))}
+          <button type="button" onClick={() => chooseAssistantFlowOption("Other / I’ll specify in chat")}>Other / I’ll specify<span>›</span></button>
+        </div>
+      )}
+
+      {assistantFlowStep === 2 && (
+        <div className="assistant-guided-choice-grid goals">
+          {assistantGoalChoices.map((option) => (
+            <button type="button" key={option} onClick={() => chooseAssistantFlowOption(option)}>{option}<span>›</span></button>
+          ))}
+        </div>
+      )}
+
+      {assistantFlowStep === 3 && (
+        <div className="assistant-guided-choice-grid styles">
+          {assistantStyleChoices.map((option) => (
+            <button type="button" key={option.label} onClick={() => chooseAssistantFlowOption(option.label)}>
+              <strong>{option.label}</strong><small>{option.detail}</small><span>›</span>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {assistantFlowStep === 4 && (
+        <div className="assistant-guided-choice-grid experience">
+          {["Beginner", "Intermediate", "Advanced"].map((option) => (
+            <button type="button" key={option} onClick={() => chooseAssistantFlowOption(option)}>{option}<span>›</span></button>
+          ))}
+        </div>
+      )}
+
+      {assistantReady && (
+        <div className="assistant-guided-ready">
+          <div className="assistant-guided-ready-title">You’re all set</div>
+          <p>{assistantMarketType} · {assistantInstrument} · {assistantTopic} · {assistantStyle} ({assistantTimeframe}) · {assistantExperience}</p>
+          <button type="button" onClick={() => setAssistantFlowStep(0)}>Change my setup</button>
+        </div>
+      )}
+    </div>
+  );
+
   const assistant = (
     <div className="assistant-chat-shell">
-      <div className="assistant-chat-header">
-        <div className="assistant-chat-brand">
-          <span className="assistant-chat-icon"><Sparkles size={19}/></span>
-          <div><strong>Ask Trader World AI</strong><small>Your trading research companion</small></div>
-        </div>
-        <div className="assistant-credit-pill"><span/> Credits & limits set by your plan</div>
-      </div>
-      <div className="assistant-filter-bar">
-        <label>Topic
-          <select value={assistantTopic} onChange={(e) => setAssistantTopic(e.target.value)}>
-            <option>General trading</option><option>Trading basics</option><option>Technical analysis</option>
-            <option>Broker information</option><option>Prop firm rules</option><option>Risk management</option>
-            <option>Platform guides</option><option>Market news</option>
-          </select>
-        </label>
-        <label>Instrument
-          <select value={assistantInstrument} onChange={(e) => setAssistantInstrument(e.target.value)}>
-            {markets.map((m) => <option key={m.symbol} value={m.symbol}>{m.symbol}</option>)}
-            <option value="XAU/USD">XAU/USD</option><option value="XAG/USD">XAG/USD</option>
-            <option value="EUR/USD">EUR/USD</option><option value="Other">Other</option>
-          </select>
-        </label>
-        <label>Timeframe
-          <select value={assistantTimeframe} onChange={(e) => setAssistantTimeframe(e.target.value)}>
-            {["1m","5m","15m","30m","1H","4H","1D","1W","1M"].map((v) => <option key={v}>{v}</option>)}
-          </select>
-        </label>
-        <label>Experience
-          <select value={assistantExperience} onChange={(e) => setAssistantExperience(e.target.value)}>
-            <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
-          </select>
-        </label>
-      </div>
       <div className="assistant-chat-transcript" aria-live="polite">
         {messages.length === 0 ? (
           <div className="assistant-welcome">
-            <span className="assistant-orb"><Sparkles size={24}/></span>
-            <h3>Think it through, together.</h3>
-            <p>Ask about trading, markets, brokers, prop firm rules or risk management.</p>
-            <div className="assistant-starters">
-              {[
-                "Explain a trading concept in simple terms",
-                "How do I calculate risk per trade?",
-                "What should I check before choosing a prop firm?"
-              ].map((q) => <button key={q} onClick={() => ask(q)} disabled={thinking}>{q}<ArrowUpRight size={14}/></button>)}
-            </div>
+            {assistantGuidedFlow}
+            {assistantReady && (
+              <div className="assistant-starters">
+                {[
+                  "Analyse the latest chart structure",
+                  "Explain the current market trend",
+                  "What risks should I watch?",
+                ].map((q) => <button key={q} onClick={() => ask(q)} disabled={thinking}>{q}<ArrowUpRight size={14}/></button>)}
+              </div>
+            )}
           </div>
         ) : (
           <div className="messages">
@@ -380,18 +534,19 @@ export function Workspace({
                 <span>{m.text}</span>
               </div>
             ))}
-            {thinking && <p className="thinking">Preparing a demo responseÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</p>}
+            {thinking && <p className="thinking">Preparing a demo response…</p>}
           </div>
         )}
       </div>
       <form className="assistant-composer" onSubmit={(e) => { e.preventDefault(); ask(prompt); }}>
         {assistantAttachment && <div className="assistant-attachment-chip"><span>{assistantAttachment.name}</span><button type="button" onClick={() => setAssistantAttachment(null)} aria-label="Remove attachment"><X size={13}/></button></div>}
         <div className="assistant-composer-row">
-          <label className="assistant-attach-button" title="Attach screenshot or document">
+          <label className={`assistant-attach-button ${!assistantReady ? "is-disabled" : ""}`} title={assistantReady ? "Attach screenshot or document" : "Complete the setup first"}>
             <Plus size={19}/>
-            <input type="file" accept="image/*,.pdf,.doc,.docx,.csv,.txt" onChange={(e) => setAssistantAttachment(e.target.files?.[0] ?? null)} />
+            <input type="file" accept="image/*,.pdf,.doc,.docx,.csv,.txt" disabled={!assistantReady} onChange={(e) => setAssistantAttachment(e.target.files?.[0] ?? null)} />
           </label>
-          <textarea aria-label="Ask Trader World AI" placeholder="Ask about trading, markets, brokers or risk..." value={prompt}
+          <textarea aria-label="Ask Trader World AI" placeholder={assistantReady ? "Ask about your selected market..." : "Answer the questions above to start chatting..."} value={prompt}
+            disabled={!assistantReady}
             onKeyDown={(e) => {
               if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
                 e.preventDefault();
@@ -400,9 +555,9 @@ export function Workspace({
             }}
             data-v24-shortcut="enabled"
             onChange={(e) => setPrompt(e.target.value)} minLength={3} maxLength={2000} rows={2} required/>
-          <button className="assistant-send-button" type="submit" disabled={thinking || prompt.trim().length < 3} aria-label="Send message"><Send size={17}/></button>
+          <button className="assistant-send-button" type="submit" disabled={!assistantReady || thinking || prompt.trim().length < 3} aria-label="Send message"><Send size={17}/></button>
         </div>
-        <div className="assistant-composer-footer"><span>Enter for a new line - Ctrl+Enter to send</span><span>Demo replies only - live AI/API not connected</span></div>
+        <div className="assistant-composer-footer"><span>{assistantReady ? "Enter for a new line - Ctrl+Enter to send" : "Complete the guided setup to unlock the chat"}</span><span>Demo replies only - live AI/API not connected</span></div>
       </form>
       <p className="assistant-disclaimer">Educational information only. AI responses are not financial advice. Verify live prices, broker terms and news from approved sources.</p>
     </div>
@@ -792,12 +947,6 @@ export function Workspace({
           )}
           {activeTab === "AI assistant" && (
             <section className="panel assistant-standalone assistant-chat-page">
-              <div className="panel-heading">
-                <h3>
-                  <Sparkles size={16} /> Ask Trader World AI
-                </h3>
-                <span className="tiny-ai">DEMO</span>
-              </div>
               {assistant}
             </section>
           )}
