@@ -12591,3 +12591,161 @@ body.twai-assistant-page-lock::-webkit-scrollbar {
 }
 /* ===== END V55 ===== */
 
+
+
+/* ===== V56: FORCE SHARED NAVBAR VISIBLE ON MOBILE + REMOVE EXTRA HEADER GAP ===== */
+
+/* High-specificity direct-body selectors defeat page-specific mobile rules
+   that were hiding the shared portal header in narrow viewports. */
+html body > header#twai-shared-site-header.site-header.twai-shared-site-header {
+  display: block !important;
+  position: fixed !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  clip: auto !important;
+  clip-path: none !important;
+  content-visibility: visible !important;
+  z-index: 2147483000 !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+html body > header#twai-shared-site-header.site-header.twai-shared-site-header > .nav-shell {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  align-items: center !important;
+}
+
+html body > header#twai-shared-site-header.site-header.twai-shared-site-header .brand,
+html body > header#twai-shared-site-header.site-header.twai-shared-site-header .nav-actions,
+html body > header#twai-shared-site-header.site-header.twai-shared-site-header .nav-cta {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 980px) {
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header {
+    left: 50% !important;
+    right: auto !important;
+    top: max(8px, env(safe-area-inset-top)) !important;
+    width: calc(100vw - 16px) !important;
+    max-width: 680px !important;
+    height: 62px !important;
+    margin: 0 !important;
+    transform: translateX(-50%) !important;
+    border-radius: 15px !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header > .nav-shell {
+    display: flex !important;
+    width: 100% !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    padding: 0 11px !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .desktop-nav,
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .signin-button {
+    display: none !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .brand {
+    display: inline-flex !important;
+    flex: 0 1 auto !important;
+    width: auto !important;
+    max-width: calc(100% - 140px) !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .brand-icon {
+    display: inline-flex !important;
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .nav-actions {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin: 0 0 0 auto !important;
+    gap: 7px !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .nav-cta {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 12px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .menu-toggle {
+    display: inline-flex !important;
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    min-height: 34px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Remove the excessive reserved top margin below the fixed header. */
+  .twai-shared-nav-spacer {
+    display: block !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    flex-basis: 70px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header > .nav-shell {
+    padding: 0 8px !important;
+    gap: 6px !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .brand {
+    max-width: calc(100% - 127px) !important;
+    font-size: 13px !important;
+  }
+  html body > header#twai-shared-site-header.site-header.twai-shared-site-header .nav-cta {
+    padding: 0 9px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* ===== END V56 ===== */
+
+
+
+/* ===== V57: REDUCE HOMEPAGE NAVBAR-TO-HERO GAP =====
+   The shared navbar is fixed and already reserves its own flow spacer.
+   Override the homepage hero's additional legacy top padding only. */
+body:has(.site-header) .hero {
+  padding-top: 52px !important;
+}
+
+@media (max-width: 1200px) and (min-width: 761px) {
+  body:has(.site-header) .hero {
+    padding-top: 46px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body:has(.site-header) .hero {
+    padding-top: 28px !important;
+  }
+}
+/* ===== END V57 ===== */
+

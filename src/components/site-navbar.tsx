@@ -21,7 +21,7 @@ const links = [
   { label: "Contact", href: "/contact" },
 ];
 
-export function SiteNavbar({ currentPage, onGetStarted }: SiteNavbarProps) {
+export function SiteNavbar({ currentPage }: SiteNavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
 
@@ -48,13 +48,14 @@ export function SiteNavbar({ currentPage, onGetStarted }: SiteNavbarProps) {
 
   const started = () => {
     setMenuOpen(false);
-    if (onGetStarted) onGetStarted();
-    else window.location.href = "/register";
+    // Get Started always opens the dedicated registration route, never the
+    // homepage's legacy demo-signup modal.
+    window.location.assign("/register");
   };
 
   const publicNavigation = (
     <>
-      <header className={`site-header twai-shared-site-header${menuOpen ? " is-menu-open" : ""}`}>
+      <header id="twai-shared-site-header" className={`site-header twai-shared-site-header${menuOpen ? " is-menu-open" : ""}`} data-twai-shared-navbar="true">
         <div className="nav-shell">
           <Brand />
           <nav className="desktop-nav" aria-label="Main navigation">
