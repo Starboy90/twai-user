@@ -23,6 +23,11 @@ const links = [
 
 export function SiteNavbar({ currentPage, onGetStarted }: SiteNavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -47,39 +52,42 @@ export function SiteNavbar({ currentPage, onGetStarted }: SiteNavbarProps) {
     else window.location.href = "/register";
   };
 
-  return (
-    <header className="site-header twai-shared-site-header">
-      <div className="nav-shell">
-        <Brand />
-        <nav className="desktop-nav" aria-label="Main navigation">
-          {links.map((link) => (
-            <div className="nav-item" key={link.href}>
-              <a
-                href={link.href}
-                className={currentPage === "contact" && link.href === "/contact" ? "active" : ""}
-                aria-current={currentPage === "contact" && link.href === "/contact" ? "page" : undefined}
-              >
-                {link.label}
-              </a>
-            </div>
-          ))}
-        </nav>
-        <div className="nav-actions">
-          <a className="signin-button" href="/login" aria-current={currentPage === "login" ? "page" : undefined}>Sign In</a>
-          <button className="button button-primary nav-cta" type="button" onClick={started}>Get Started</button>
-          <button
-            className="icon-button menu-toggle"
-            type="button"
-            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-            aria-expanded={menuOpen}
-            aria-controls="twai-shared-mobile-navigation"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? <X size={21} /> : <Menu size={21} />}
-          </button>
+  const publicNavigation = (
+    <>
+      <header className={`site-header twai-shared-site-header${menuOpen ? " is-menu-open" : ""}`}>
+        <div className="nav-shell">
+          <Brand />
+          <nav className="desktop-nav" aria-label="Main navigation">
+            {links.map((link) => (
+              <div className="nav-item" key={link.href}>
+                <a
+                  href={link.href}
+                  className={currentPage === "contact" && link.href === "/contact" ? "active" : ""}
+                  aria-current={currentPage === "contact" && link.href === "/contact" ? "page" : undefined}
+                >
+                  {link.label}
+                </a>
+              </div>
+            ))}
+          </nav>
+          <div className="nav-actions">
+            <a className="signin-button" href="/login" aria-current={currentPage === "login" ? "page" : undefined}>Sign In</a>
+            <button className="button button-primary nav-cta" type="button" onClick={started}>Get Started</button>
+            <button
+              className="icon-button menu-toggle"
+              type="button"
+              aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={menuOpen}
+              aria-controls="twai-shared-mobile-navigation"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              {menuOpen ? <X size={21} /> : <Menu size={21} />}
+            </button>
+          </div>
         </div>
-      </div>
-      {menuOpen && typeof document !== "undefined" && createPortal(
+      </header>
+
+      {menuOpen && (
         <>
           <button
             type="button"
@@ -100,9 +108,15 @@ export function SiteNavbar({ currentPage, onGetStarted }: SiteNavbarProps) {
               <span>Get Started</span><ArrowRight size={16} aria-hidden="true" />
             </button>
           </nav>
-        </>,
-        document.body
+        </>
       )}
-    </header>
+    </>
+  );
+
+  return (
+    <>
+      <div className="twai-shared-nav-spacer" aria-hidden="true" />
+      {portalReady ? createPortal(publicNavigation, document.body) : null}
+    </>
   );
 }
