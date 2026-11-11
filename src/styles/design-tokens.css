@@ -1,0 +1,22 @@
+/*
+ * Trader World AI design-system aliases.
+ * Existing V45 glass styling remains owned by globals.css/workspace.css.
+ * Components should consume these tokens instead of adding page-local values.
+ */
+:root {
+  --twai-font-body: var(--font-geist), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --twai-radius-sm: 10px;
+  --twai-radius-md: 16px;
+  --twai-radius-lg: 24px;
+  --twai-radius-pill: 999px;
+  --twai-space-1: 4px;
+  --twai-space-2: 8px;
+  --twai-space-3: 12px;
+  --twai-space-4: 16px;
+  --twai-space-5: 20px;
+  --twai-space-6: 24px;
+  --twai-space-8: 32px;
+  --twai-glass-blur: 18px;
+  --twai-glass-border: rgba(255, 255, 255, 0.58);
+  --twai-focus-ring: 0 0 0 3px rgba(99, 102, 241, 0.24);
+}
